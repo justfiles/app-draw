@@ -1,6 +1,7 @@
 # Not a monorepo — this is just where pnpm 11 keeps settings. `allowBuilds` has no
-# package.json equivalent (the `pnpm.onlyBuiltDependencies` field is ignored), and
-# without it esbuild never fetches its platform binary, which `@justfiles/app` needs
-# at build time to compile the reducer into `app.js`.
+# package.json equivalent (`pnpm.onlyBuiltDependencies` is ignored, and an .npmrc
+# `ignore-scripts` does not suppress the check either — both tested). Without it
+# esbuild never fetches its platform binary, which `@justfiles/app` needs at build
+# time to compile the reducer into `app.js`.
 allowBuilds:
   esbuild: true
