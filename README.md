@@ -41,3 +41,16 @@ Emits the app bundle into `dist/`:
 
 `manifest.json`'s `version` is read from `package.json`, so the package version is the single
 place a release version is set.
+
+## Release
+
+Bump `version` in `package.json` and merge to `main`. That is the whole ritual.
+
+`.github/workflows/release.yml` notices a version with no matching tag, runs the checks, builds,
+zips `dist/` into `justapp.zip`, attaches a build-provenance attestation, and cuts the GitHub
+release at `v<version>`. Every other push to `main` is a no-op, so the workflow is safe to run
+on every merge.
+
+Because the tag is derived from `package.json` rather than pushed by hand, the release tag and
+`manifest.json`'s version cannot drift apart.
+

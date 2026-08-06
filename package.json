@@ -1,22 +1,14 @@
 {
-	"name": "@justfiles/app-draw",
+	"name": "app-draw",
 	"version": "0.4.1",
+	"private": true,
+	"packageManager": "pnpm@11.2.2",
 	"description": "A freeform sketchpad backed by Excalidraw.",
 	"type": "module",
-	"main": "./dist/manifest.json",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/justfiles/app-draw.git"
-	},
-	"keywords": [
-		"kodama-app"
-	],
-	"files": [
-		"dist"
-	],
-	"publishConfig": {
-		"access": "public"
 	},
 	"scripts": {
 		"dev": "vite",
@@ -27,8 +19,7 @@
 		"test:watch": "vitest",
 		"format": "biome format --write .",
 		"lint": "biome ci .",
-		"lint:fix": "biome check --write .",
-		"prepublishOnly": "pnpm build"
+		"lint:fix": "biome check --write ."
 	},
 	"dependencies": {
 		"@excalidraw/excalidraw": "^0.18.0",
