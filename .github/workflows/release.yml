@@ -70,12 +70,16 @@ jobs:
       - run: pnpm build
 
       # Zip the CONTENTS of dist/, so manifest.json sits at the archive root where
-      # the catalog importer looks for it.
-      - run: cd dist && zip -qr ../justapp.zip .
+      # the catalog importer looks for it. The name is free — the importer takes the
+      # sole *.zip asset — so it may as well say what it is.
+      - run: cd dist && zip -qr ../draw.zip .
 
-      - uses: actions/attest-build-provenance@v3
+      # actions/attest, not actions/attest-build-provenance: as of v4 the latter is a
+      # wrapper over this, and GitHub's docs point new workflows here. `artifact-metadata`
+      # is not needed — that permission is only for push-to-registry.
+      - uses: actions/attest@v4
         with:
-          subject-path: justapp.zip
+          subject-path: draw.zip
 
       # `--target` pins the tag to the commit that was actually built and attested.
       # Without it `gh` tags whatever the default branch points at when the API call
@@ -84,7 +88,7 @@ jobs:
       - env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "v${{ needs.check.outputs.version }}" justapp.zip \
+          gh release create "v${{ needs.check.outputs.version }}" draw.zip \
             --target "${{ github.sha }}" \
             --title "v${{ needs.check.outputs.version }}" \
             --generate-notes
