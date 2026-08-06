@@ -1,7 +1,14 @@
-# Not a monorepo — this is just where pnpm 11 keeps settings. `allowBuilds` has no
+# Not a monorepo — pnpm 11 keeps settings here, and `allowBuilds` has no
 # package.json equivalent (`pnpm.onlyBuiltDependencies` is ignored, and an .npmrc
-# `ignore-scripts` does not suppress the check either — both tested). Without it
-# esbuild never fetches its platform binary, which `@justfiles/app` needs at build
-# time to compile the reducer into `app.js`.
+# `ignore-scripts` does not suppress the check either — both tested).
+#
+# esbuild's postinstall is declined: its platform binary arrives via the
+# `@esbuild/<platform>` optional dependency, the same way rolldown's does, so the
+# script is a legacy validation step the build does not need. Verified — the
+# reducer still compiles and the manifest still reads its capabilities.
+#
+# This file disappears entirely once `@justfiles/app` stops depending on esbuild
+# directly: rolldown ships no install script, which is why a plain Vite project
+# never needs any of this.
 allowBuilds:
-  esbuild: true
+  esbuild: false
