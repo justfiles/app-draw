@@ -1,0 +1,4 @@
+# `@justfiles/app` compiles the reducer (`app.js`) with esbuild at build time, so
+# esbuild's install script must run to fetch its platform binary.
+allowBuilds:
+  esbuild: true
