@@ -42,6 +42,21 @@ Emits the app bundle into `dist/`:
 `manifest.json`'s `version` is read from `package.json`, so the package version is the single
 place a release version is set.
 
+`gui.js` is large (~9.8 MB, ~2.7 MB gzipped) because it carries Excalidraw. That is an inert
+static asset, not executable Worker code — `app.js`, the only file that becomes a Worker, is
+under 12 KB.
+
+### Known limitation: fonts load from esm.sh
+
+Excalidraw resolves its fonts against `window.EXCALIDRAW_ASSET_PATH` and falls back to
+`https://esm.sh/@excalidraw/excalidraw@<version>/dist/prod/` when it is unset. It is unset here,
+so text rendering makes a third-party network request at runtime.
+
+Bundling the fonts instead needs the app to know its own asset base URL, and it currently cannot:
+the host loads `gui.js` from a Blob URL, so `import.meta.url` is a `blob:` URL and Excalidraw's
+relative `./fonts/…` paths resolve against the host origin rather than the app's. Fixing it means
+`@justfiles/app` passing a base URL into the GUI's mount context. Tracked upstream.
+
 ## Release
 
 Bump `version` in `package.json` and merge to `main`. That is the whole ritual.

@@ -77,9 +77,14 @@ jobs:
         with:
           subject-path: justapp.zip
 
+      # `--target` pins the tag to the commit that was actually built and attested.
+      # Without it `gh` tags whatever the default branch points at when the API call
+      # lands, so a push racing this job would produce a tag whose source is not the
+      # source the attestation covers.
       - env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "v${{ needs.check.outputs.version }}" justapp.zip \
+            --target "${{ github.sha }}" \
             --title "v${{ needs.check.outputs.version }}" \
             --generate-notes
