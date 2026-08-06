@@ -1,0 +1,15 @@
+# TEMPORARY. Delete this file once @justfiles/app@0.3.0 clears pnpm's 24h
+# minimumReleaseAge window at 2026-08-07T04:11:40Z. A PR to do exactly that is
+# already open — this exists only to unblock the first release so work on the
+# justapps.run host can continue.
+#
+# pnpm 11 turns supply-chain protection on by default: minimumReleaseAge is 1440
+# minutes, and `pnpm install --frozen-lockfile` verifies the lockfile against that
+# policy. Verification has no fallback path, so CI cannot resolve around it. 0.3.0
+# was published roughly an hour before the first release run, so the build failed
+# on a dependency that is fine — only new.
+#
+# Scoped to the exact version, not the package, so it cannot silently keep
+# covering future SDK releases if this file outlives its purpose.
+minimumReleaseAgeExclude:
+  - '@justfiles/app@0.3.0'
