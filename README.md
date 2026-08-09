@@ -42,20 +42,16 @@ Emits the app bundle into `dist/`:
 `manifest.json`'s `version` is read from `package.json`, so the package version is the single
 place a release version is set.
 
-`gui.js` is large (~9.8 MB, ~2.7 MB gzipped) because it carries Excalidraw. That is an inert
+`gui.js` is large (~10 MB, ~3 MB gzipped) because it carries Excalidraw. That is an inert
 static asset, not executable Worker code — `app.js`, the only file that becomes a Worker, is
 under 12 KB.
 
-### Known limitation: fonts load from esm.sh
+### Fonts
 
-Excalidraw resolves its fonts against `window.EXCALIDRAW_ASSET_PATH` and falls back to
-`https://esm.sh/@excalidraw/excalidraw@<version>/dist/prod/` when it is unset. It is unset here,
-so text rendering makes a third-party network request at runtime.
-
-Bundling the fonts instead needs the app to know its own asset base URL, and it currently cannot:
-the host loads `gui.js` from a Blob URL, so `import.meta.url` is a `blob:` URL and Excalidraw's
-relative `./fonts/…` paths resolve against the host origin rather than the app's. Fixing it means
-`@justfiles/app` passing a base URL into the GUI's mount context. Tracked upstream.
+The build embeds Excalidraw's small fonts into `gui.js`, so they work inside the app frame and
+offline. Xiaolai's Unicode subsets are about 13 MB, so they remain on Excalidraw's
+`esm.sh` fallback and load only when Chinese glyphs need them. A host must permit
+`https://esm.sh` in `font-src`; offline clients use a fallback unless that subset is browser-cached.
 
 ## Release
 
@@ -71,4 +67,3 @@ it can be whatever describes the app.
 
 Because the tag is derived from `package.json` rather than pushed by hand, the release tag and
 `manifest.json`'s version cannot drift apart.
-
