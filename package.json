@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@excalidraw/excalidraw": "^0.18.0",
-		"@justfiles/app": "^0.3.0",
+		"@justfiles/app": "^0.4.0",
 		"valibot": "^1.1.0"
 	},
 	"peerDependencies": {
