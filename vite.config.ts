@@ -46,7 +46,7 @@ export default defineConfig(({ mode }) => ({
 						id: 'io.github.justfiles.draw',
 						name: 'Draw',
 						description: 'A freeform sketchpad backed by Excalidraw',
-						icon: 'icon.png',
+						icon: 'icon.svg',
 						app: 'src/app.ts',
 						gui: 'src/gui.tsx'
 					})
