@@ -62,6 +62,25 @@
 	position: relative;
 }
 
+/* Isolate Excalidraw's controls from the platform sheet.
+
+   The platform sheet dresses bare `<button>`/`<input>` so an app that writes
+   plain markup looks native. Excalidraw draws its own controls instead: its
+   switches and radios are `appearance: none` inputs painted by its own CSS,
+   which never declares a background, border, or padding for them. Nothing of
+   Excalidraw's is overridden — there is simply no rule to win, so the platform
+   default lands and each control renders as a white text field: the Background /
+   Dark mode / Embed scene toggles lose their state, and the Scale radios paint
+   over their 1× / 2× / 3× labels.
+
+   `revert` drops the author-origin defaults and gives these controls the UA
+   rendering Excalidraw is written against. `:where()` keeps this rule at one
+   class of specificity, below every Excalidraw rule (all of them are
+   `.excalidraw .Class`, and none use `:where()`), so its own styling still wins. */
+.excalidraw :where(button, input, textarea, select) {
+	all: revert;
+}
+
 /* Presentation mode. The app chrome and Excalidraw's own UI (desktop
    `.layer-ui__wrapper`, mobile `.App-top-bar` / `.App-bottom-bar`) are hidden so
    only the canvases and our slide bar remain. */
